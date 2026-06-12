@@ -1,9 +1,3 @@
-# +--------------------------------------------------+
-# | Formak's Testing System v5                       |
-# +--------------------------------------------------+
-# Файл: .clang-format
-# Версия: v1.0.1
-
 BasedOnStyle: Microsoft
 IndentCaseLabels: true
 SeparateDefinitionBlocks: Always
