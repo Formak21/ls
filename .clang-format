@@ -1,0 +1,22 @@
+# +--------------------------------------------------+
+# | Formak's Testing System v5                       |
+# +--------------------------------------------------+
+# Файл: .clang-format
+# Версия: v1.0.1
+
+BasedOnStyle: Microsoft
+IndentCaseLabels: true
+SeparateDefinitionBlocks: Always
+InsertNewlineAtEOF: true
+IndentWidth: 4
+AccessModifierOffset: -4
+NamespaceIndentation: All
+BraceWrapping:
+    AfterClass: true
+    AfterStruct: true
+    AfterUnion: true
+    AfterCaseLabel: true
+    AfterFunction: true
+ColumnLimit: 200
+IndentGotoLabels: true
+Cpp11BracedListStyle: false
