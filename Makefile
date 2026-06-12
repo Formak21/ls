@@ -9,6 +9,8 @@ EXEDIR := ./bin
 
 # Files:
 # +------------------------------------------------------+
+SCRIPTS := $(wildcard $(SCRIPTDIR)/*.sh)
+
 SRCS := $(wildcard $(SRCDIR)/*.c)
 INCS := $(wildcard $(INCDIR)/*.h)
 
@@ -53,17 +55,34 @@ debug : $(EXE)
 clean :
 	-rm -rf $(EXEDIR) $(OUTDIR)
 
-cppcheck:
-	cppcheck --enable=all --platform=native --std=c99 --check-level=exhaustive --suppress=missingIncludeSystem $(CIFLAGS) $(INCS) $(SRCS)
+cppcheck :
+	cppcheck --exitcode-suppress=missingIncludeSystem --error-exitcode=1 --enable=all --platform=native --std=c99 --check-level=exhaustive $(CIFLAGS) $(INCS) $(SRCS)
 
-clang_format:
+clang_format :
 	clang-format -style=file:.clang-format -i $(INCS) $(SRCS)
 
-shellcheck:
-	shellcheck --color=always --enable=all $(SCRIPTDIR)/*.sh
+check_clang_format :
+	clang-format -style=file:.clang-format -Werror --dry-run $(INCS) $(SRCS)
 
-shfmt:
-	shfmt -ln=auto -i=4 -mn -w $(SCRIPTDIR)/*.sh
+shellcheck :
+	shellcheck --color=always --enable=all $(SCRIPTS)
+
+shfmt :
+	shfmt -ln=auto -i=4 -mn -w $(SCRIPTS)
+
+check_build :
+	make clean
+	@echo "Cleaned."
+	@echo "Checking release..."
+	make release
+	@test -f "$(EXE)" && echo "Release build successful." || (echo "Release build failed." && exit 1)
+	make clean
+	@echo "Cleaned."
+	@echo "Checking debug..."
+	make debug
+	@test -f "$(EXE)" && echo "Debug build successful." || (echo "Debug build failed." && exit 1)
+	make clean
+	@echo "Cleaned."
 # +------------------------------------------------------+
 
 
