@@ -44,6 +44,18 @@ all : release
 release : CFLAGS += -O2 -DNDEBUG
 release : $(EXE)
 
+asan: CFLAGS += -fsanitize=address -fno-omit-frame-pointer
+asan: LDFLAGS += -fsanitize=address
+asan: debug
+
+msan: CFLAGS += -fsanitize=memory -fPIE -fno-omit-frame-pointer
+msan: LDFLAGS += -fsanitize=memory -fPIE
+msan: debug
+
+ubsan: CFLAGS += -fsanitize=undefined -fno-omit-frame-pointer 
+ubsan: LDFLAGS += -fsanitize=undefined
+ubsan: debug
+
 debug : CFLAGS += -g3 -DDEBUG -D_DEBUG -O0
 debug : $(EXE)
 # +------------------------------------------------------+s
